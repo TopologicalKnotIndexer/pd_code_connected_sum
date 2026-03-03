@@ -1,0 +1,19 @@
+[project]
+name = "pd-code-connected-sum"
+version = "0.0.2"
+description = "make connected sum for link pd_code"
+authors = [
+    {name = "GGN_2015",email = "neko@jlulug.org"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pd-code-sanity",
+    "pd-code-pre-nxt"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
