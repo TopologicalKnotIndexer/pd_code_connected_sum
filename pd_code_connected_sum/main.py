@@ -84,7 +84,7 @@ def find_avaible_pos(pd_code:list[list], val_now):
 # 删除 pd_code1 中 val_1 所在的 crossing
 # 然后把两个扭结直接合并
 # 然后重新编号
-def del_component_and_merge(pd_code1, pd_code2, val_1, val_2) -> list[list]:
+def del_component_and_merge(pd_code1, pd_code2, val_1, val_2) -> tuple[list[list], dict]:
     suc = False
     for i in range(len(pd_code1)):
         if check_has(pd_code1[i], val_1):
@@ -118,11 +118,11 @@ def del_component_and_merge(pd_code1, pd_code2, val_1, val_2) -> list[list]:
             if num_map.get(crossing[i]) is None:
                 assert AssertionError()
             crossing[i] = num_map[crossing[i]]
-    return sorted(new_pd_code)
+    return sorted(new_pd_code), num_map
 
 # 将 pd_code1 里面的 val_1 和 pd_code2 里面的 val_2 连接起来
 def connected_sum(
-    pd_code1:list[list], pd_code2:list[list], val_1, val_2) -> list[list]:
+    pd_code1:list[list], pd_code2:list[list], val_1, val_2) -> tuple[list[list], dict]:
     
     # 如果有一个扭结平凡，则不需要连接
     if pd_code1 == [] or pd_code2 == []:
@@ -235,7 +235,11 @@ def connected_sum(
     ans_pd_code = sorted(new_pd_code)
     if not pd_code_sanity.sanity(ans_pd_code):
         raise AssertionError()
-    return ans_pd_code
+    
+    return ans_pd_code, num_map
 
 if __name__ == "__main__":
-    print(connected_sum([[1, 2, 2, 1]], [[1, 2, 2, 1]], 1, 1))
+    pd_code, num_map = connected_sum(
+        [[1, 5, 2, 4], [3, 1, 4, 6], [5, 3, 6, 2]], 
+        [[1, 5, 2, 4], [3, 1, 4, 6], [5, 3, 6, 2]], 1, 1)
+    print(num_map)

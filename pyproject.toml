@@ -1,6 +1,6 @@
 [project]
 name = "pd-code-connected-sum"
-version = "0.0.2"
+version = "0.0.3"
 description = "make connected sum for link pd_code"
 authors = [
     {name = "GGN_2015",email = "neko@jlulug.org"}

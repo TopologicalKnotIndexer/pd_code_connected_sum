@@ -21,6 +21,9 @@ link_pd_code_2 = [[6, 1, 7, 2], [8, 3, 5, 4], [2, 5, 3, 6], [4, 7, 1, 8]]
 connect_pos_1 = 1
 connect_pos_2 = 1
 
-print(pd_code_connected_sum.connected_sum(
-    link_pd_code_1, link_pd_code_2, connect_pos_1, connect_pos_2))
+new_pd_code, num_map = pd_code_connected_sum.connected_sum(
+    link_pd_code_1, link_pd_code_2, connect_pos_1, connect_pos_2)
+
+print(new_pd_code)
+print(num_map)
 ```
