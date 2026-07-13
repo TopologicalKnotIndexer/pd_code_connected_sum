@@ -22,7 +22,7 @@ print(label_map["a_1"], label_map["b_1"])
 
 ## Algorithm
 
-Each input component is converted to a deterministic oriented cycle. The algorithm locates the incidence immediately after each selected arc, offsets the second code to avoid collisions, cuts those two oriented arcs, and glues the endpoints crosswise. It then canonically orders component cycles, assigns contiguous labels, orients every crossing consistently, and returns maps for all original labels. This avoids the incorrect local crossing replacement used by older releases.
+Each input is first converted to deterministic oriented cycles with contiguous temporary labels. The algorithm locates the incidence immediately after each selected arc, offsets the normalized second code to avoid collisions even when raw labels are negative or sparse, cuts those two oriented arcs, and glues the endpoints crosswise. It then canonically orders component cycles, assigns final contiguous labels, orients every crossing consistently, and returns maps for all original labels. This avoids both raw-label collisions and the incorrect local crossing replacement used by older releases.
 
 ## Input conventions
 
@@ -34,12 +34,14 @@ No external software is required.
 
 ## Development
 
-Run examples and package checks before release. Python packages require Python 3.10 or newer. Build PyPI artifacts with:
+Python 3.10 or newer is required. Run tests with the declared
+`pd_code_sanity` and `pd_code_pre_nxt` dependencies available:
 
 ```bash
-poetry check
-poetry build
+python -m unittest discover -s tests -v
 ```
+
+No PyPI publication is performed as part of repository maintenance.
 
 ## License
 

@@ -73,18 +73,30 @@ def connected_sum(
     if sum(label == val_2 for crossing in pd_code2 for label in crossing) != 2:
         raise ValueError("val_2 must occur exactly twice in pd_code2")
 
-    first = deepcopy(pd_code1)
-    offset = max(label for crossing in first for label in crossing)
-    second = [[label + offset for label in crossing] for crossing in deepcopy(pd_code2)]
-    second_label = val_2 + offset
+    # Normalize each input before offsetting. Using max(raw labels) directly
+    # can collide when an otherwise valid code uses negative or sparse labels.
+    first, first_input_map = _normalize(deepcopy(pd_code1))
+    second_base, second_input_map = _normalize(deepcopy(pd_code2))
+    offset = 2 * len(first)
+    second = [[label + offset for label in crossing] for crossing in second_base]
+    first_label = first_input_map[val_1]
+    second_label = second_input_map[val_2] + offset
     pre_a, nxt_a = pd_code_pre_nxt.get_pre_nxt(first)
     pre_b, nxt_b = pd_code_pre_nxt.get_pre_nxt(second)
-    ai, aj = _endpoint(first, val_1, nxt_a, pre_a, True)
+    ai, aj = _endpoint(first, first_label, nxt_a, pre_a, True)
     bi, bj = _endpoint(second, second_label, nxt_b, pre_b, True)
 
     first[ai][aj] = second_label
-    second[bi][bj] = val_1
+    second[bi][bj] = first_label
     normalized, mapping = _normalize(first + second)
-    output_map = {"a_" + str(old): new for old, new in mapping.items() if old <= offset}
-    output_map.update({"b_" + str(old - offset): new for old, new in mapping.items() if old > offset})
+    output_map = {
+        "a_" + str(old): mapping[normalized_label]
+        for old, normalized_label in first_input_map.items()
+    }
+    output_map.update(
+        {
+            "b_" + str(old): mapping[normalized_label + offset]
+            for old, normalized_label in second_input_map.items()
+        }
+    )
     return normalized, output_map
