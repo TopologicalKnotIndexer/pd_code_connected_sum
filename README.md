@@ -1,6 +1,6 @@
 # pd-code-connected-sum
 
-Join two oriented PD-code components and canonically renumber the result.
+Join two selected oriented PD-code components and canonically renumber the result.
 
 ## Installation
 
@@ -8,15 +8,38 @@ Join two oriented PD-code components and canonically renumber the result.
 pip install pd-code-connected-sum
 ```
 
-## Quick start
+## Usage example
 
-`from pd_code_connected_sum import connected_sum` then `connected_sum(a, b, a_label, b_label)`.
+```python
+from pd_code_connected_sum import connected_sum
 
-PD codes are lists of four-entry crossings. Each arc label must occur exactly twice. Functions validate their inputs and do not mutate caller-owned PD-code lists unless explicitly documented.
+left = [[1, 5, 2, 4], [3, 1, 4, 6], [5, 3, 6, 2]]
+right = [[1, 5, 2, 4], [3, 1, 4, 6], [5, 3, 6, 2]]
+result, label_map = connected_sum(left, right, 1, 1)
+print(result)
+print(label_map["a_1"], label_map["b_1"])
+```
+
+## Algorithm
+
+Each input component is converted to a deterministic oriented cycle. The algorithm locates the incidence immediately after each selected arc, offsets the second code to avoid collisions, cuts those two oriented arcs, and glues the endpoints crosswise. It then canonically orders component cycles, assigns contiguous labels, orients every crossing consistently, and returns maps for all original labels. This avoids the incorrect local crossing replacement used by older releases.
+
+## Input conventions
+
+A PD code is represented as a list of four-entry crossings. Arc labels normally occur exactly twice. Public functions validate inputs and return new values rather than mutating caller-owned data unless their API explicitly says otherwise.
+
+## External software
+
+No external software is required.
 
 ## Development
 
-Use Python 3.10 or newer for Python packages. Build distributions with `poetry build`. Run the package's tests or examples before publishing. C++ projects require a modern standards-compliant compiler.
+Run examples and package checks before release. Python packages require Python 3.10 or newer. Build PyPI artifacts with:
+
+```bash
+poetry check
+poetry build
+```
 
 ## License
 
