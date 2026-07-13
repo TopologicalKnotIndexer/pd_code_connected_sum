@@ -1,29 +1,23 @@
-# pd_code_connected_sum
-caculate connected sum for link pd_code.
+# pd-code-connected-sum
 
-## Install
+Join two oriented PD-code components and canonically renumber the result.
+
+## Installation
 
 ```bash
 pip install pd-code-connected-sum
 ```
 
-## Usage
+## Quick start
 
-```python
-import pd_code_connected_sum
+`from pd_code_connected_sum import connected_sum` then `connected_sum(a, b, a_label, b_label)`.
 
-# L2a1
-link_pd_code_1 = [[4, 1, 3, 2], [2, 3, 1, 4]]
+PD codes are lists of four-entry crossings. Each arc label must occur exactly twice. Functions validate their inputs and do not mutate caller-owned PD-code lists unless explicitly documented.
 
-# L4a1
-link_pd_code_2 = [[6, 1, 7, 2], [8, 3, 5, 4], [2, 5, 3, 6], [4, 7, 1, 8]]
+## Development
 
-connect_pos_1 = 1
-connect_pos_2 = 1
+Use Python 3.10 or newer for Python packages. Build distributions with `poetry build`. Run the package's tests or examples before publishing. C++ projects require a modern standards-compliant compiler.
 
-new_pd_code, num_map = pd_code_connected_sum.connected_sum(
-    link_pd_code_1, link_pd_code_2, connect_pos_1, connect_pos_2)
+## License
 
-print(new_pd_code)
-print(num_map)
-```
+MIT. See `LICENSE`.
